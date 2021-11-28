@@ -12,10 +12,11 @@ class PokemonNwRepository {
       var apiClient = getApiClient();
       final response = await apiClient.get(Uri.parse(url));
       var decodedResponse = json.decode(response.body);
+      final totalCount = decodedResponse['count'];
       return List.generate(
           decodedResponse['results'].length,
-          (index) => Pokemon.fromJson(
-              decodedResponse['results'][index], index + offset));
+          (index) => Pokemon.fromJson(decodedResponse['results'][index],
+              index: index + offset, totalCount: totalCount));
     } catch (e) {
       log(e.toString());
     }
